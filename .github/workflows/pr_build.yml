@@ -22,8 +22,24 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           echo "::set-output name=json::$content"
 
-      - run: |
-          echo "${{fromJson(steps.manifest.outputs.json).version}}"
+
+
+
+      - run: echo "${{fromJson(steps.manifest.outputs.json).name}}"
+      - run: echo "${{fromJson(steps.manifest.outputs.json).version}}"
+
+
+      - id: artifact_name
+        uses: ashley-taylor/regex-property-action@v1.2
+        with:
+          value: ${{fromJson(steps.manifest.outputs.json).name}}-${{fromJson(steps.manifest.outputs.json).version}}
+          regex: "[^a-z0-9\-\.]"
+          replacement: ""
+
+      - run: echo "${{ steps.branch.artifact_name.value }}"
+
+
+
 
       - uses: actions/setup-node@v2
         with:
