@@ -14,33 +14,6 @@ jobs:
       - uses: actions/checkout@v2
       - run: git fetch --no-tags --depth=1 origin master
 
-      - id: manifest
-        run: |
-          content=`cat ./manifest.json`
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          echo "::set-output name=json::$content"
-
-
-
-
-      - run: echo "${{fromJson(steps.manifest.outputs.json).name}}"
-      - run: echo "${{fromJson(steps.manifest.outputs.json).version}}"
-
-
-      - id: artifact_name
-        uses: ashley-taylor/regex-property-action@master
-        with:
-          value: ${{fromJson(steps.manifest.outputs.json).name}}-${{fromJson(steps.manifest.outputs.json).version}}
-          regex: "[^a-z0-9\\-\\.]"
-          replacement: ""
-
-      - run: echo "${{ steps.branch.artifact_name.value }}"
-
-
-
-
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
@@ -75,11 +48,11 @@ jobs:
         run: yarn test:coverage
 
       - name: Build
-        run: yarn build
+        run: yarn build:package
 
       - name: Upload package
         uses: actions/upload-artifact@v2
         with:
           name: app-package
-          path: dist
+          path: dist/*.zip
           retention-days: 30
