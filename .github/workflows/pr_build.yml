@@ -65,4 +65,4 @@ jobs:
           name: app-package
 
       - name: Unzip artifact
-        run: ls -l "${GITHUB_WORKSPACE}"
+        run: unzip "${GITHUB_WORKSPACE}/deskproappsmyapp-1_0_0.zip"
