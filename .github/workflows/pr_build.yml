@@ -30,7 +30,7 @@ jobs:
 
 
       - id: artifact_name
-        uses: ashley-taylor/regex-property-action@v1.2
+        uses: ashley-taylor/regex-property-action@master
         with:
           value: ${{fromJson(steps.manifest.outputs.json).name}}-${{fromJson(steps.manifest.outputs.json).version}}
           regex: "[^a-z0-9\\-\\.]"
