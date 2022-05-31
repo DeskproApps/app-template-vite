@@ -48,21 +48,11 @@ jobs:
         run: yarn test:coverage
 
       - name: Build
-        run: yarn build:package
+        run: yarn build
 
       - name: Upload package
         uses: actions/upload-artifact@v2
         with:
           name: app-package
-          path: build/*.zip
+          path: dist
           retention-days: 30
-
-
-
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: app-package
-
-      - name: Unzip artifact
-        run: unzip "${GITHUB_WORKSPACE}/deskproappsmyapp-1_0_0.zip"
