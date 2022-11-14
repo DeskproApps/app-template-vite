@@ -1,28 +1,55 @@
 {
-  "name": "@deskpro-apps/my_app",
-  "title": "My App",
-  "description": "My Deskpro app",
-  "version": "1.0.0",
+  "name": "@deskpro-apps/azure",
+  "title": "Azure",
+  "description": "Use Azure",
+  "version": "1.0.1",
   "scope": "agent",
+  "hasDevMode": true,
   "isSingleInstall": false,
-  "targets": [{
-    "target": "ticket_sidebar",
-    "entrypoint": "index.html"
-  }],
+  "targets": [
+    {
+      "target": "ticket_sidebar",
+      "entrypoint": "index.html"
+    }
+  ],
   "settings": {
-    "example": {
-      "title": "Example Setting",
-      "description": "Example backend only setting",
+    "client_id": {
+      "title": "Azure Client Id",
+      "description": "1",
       "type": "string",
-      "isRequired": false,
+      "isRequired": true,
+      "isBackendOnly": false
+    },
+    "tenant_id": {
+      "title": "Azure Tenant Id",
+      "description": "2",
+      "type": "string",
+      "isRequired": true,
+      "isBackendOnly": false
+    },
+    "global_access_token": {
+      "title": "",
+      "type": "app_embedded",
+      "options": {
+        "entrypoint": "#/globalauth"
+      },
+      "isRequired": true,
       "isBackendOnly": true
     }
   },
   "proxy": {
-    "whitelist": [{
-      "url": "https://example.com/.*",
-      "methods": ["GET", "POST", "PUT"],
-      "timeout": 10
-    }]
+    "whitelist": [
+      {
+        "url": "https://dev.azure.com/.*",
+        "methods": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "PATCH"
+        ],
+        "timeout": 10
+      }
+    ]
   }
 }
