@@ -3,12 +3,12 @@ import { H1, Stack } from "@deskpro/deskpro-ui";
 import {
   Context,
   Property,
-  proxyFetch,
   LoadingSpinner,
   HorizontalDivider,
+  useDeskproElements,
   useDeskproAppEvents,
-  useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
+import { usePosts } from "./usePosts";
 
 /*
     Note: the following page component contains example code, please remove the contents of this component before you
@@ -17,14 +17,11 @@ import {
 */
 export const Main = () => {
   const [ticketContext, setTicketContext] = useState<Context | null>(null);
-
-  const [examplePosts, setExamplePosts] = useState<
-    { id: string; title: string }[]
-  >([]);
+  const posts = usePosts();
 
   // Add a "refresh" button @see https://support.deskpro.com/en-US/guides/developers/app-elements
-  useInitialisedDeskproAppClient((client) => {
-    client.registerElement("myRefreshButton", { type: "refresh_button" });
+  useDeskproElements(({ registerElement }) => {
+    registerElement("myRefreshButton", { type: "refresh_button" });
   });
 
   // Listen for the "change" event and store the context data
@@ -33,24 +30,8 @@ export const Main = () => {
     onChange: setTicketContext,
   });
 
-  // Use the apps proxy to fetch data from a third party
-  // API @see https://support.deskpro.com/en-US/guides/developers/app-proxy
-  useInitialisedDeskproAppClient((client) =>
-    (async () => {
-      const fetch = await proxyFetch(client);
-
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts"
-      );
-
-      const posts = await response.json();
-
-      setExamplePosts(posts.slice(0, 3));
-    })()
-  );
-
   // If we don't have a ticket context yet, show a loading spinner
-  if (ticketContext === null) {
+  if (!ticketContext || posts.isLoading) {
     return <LoadingSpinner />;
   }
 
@@ -65,7 +46,7 @@ export const Main = () => {
       </Stack>
       <HorizontalDivider width={2} />
       <H1>Example Posts</H1>
-      {examplePosts.map((post) => (
+      {(posts?.data || []).map((post: { id: string, title: string }) => (
         <div key={post.id}>
           <Property label="Post Title" text={post.title} />
           <HorizontalDivider width={2} />

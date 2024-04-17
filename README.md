@@ -30,7 +30,7 @@ pnpm run start
 
 You should now be able to view the bare-bones app in your browser.
 
-For more information or to start developing an app, please take a look at our [developer guides](https://support.deskpro.com/en/guides/developers/apps/apps-1/anatomy-of-an-app).
+For more information or to start developing an app, please take a look at our [developer guides](https://support.deskpro.com/en-US/guides/developers/apps/apps-1/anatomy-of-an-app).
 
 Testing
 ---

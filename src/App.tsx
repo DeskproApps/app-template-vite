@@ -1,15 +1,12 @@
-import "@deskpro/deskpro-ui/dist/deskpro-ui.css";
-import "@deskpro/deskpro-ui/dist/deskpro-custom-icons.css";
-import { DeskproAppProvider } from "@deskpro/app-sdk";
-import * as React from "react";
-import { Main } from "./pages/Main";
+import { Routes, Route } from "react-router-dom";
+import { Main } from "./pages";
 
-function App() {
+const App = () => {
   return (
-    <DeskproAppProvider>
-      <Main />
-    </DeskproAppProvider>
+    <Routes>
+      <Route index element={<Main />} />
+    </Routes>
   );
 }
 
-export default App;
+export { App };

@@ -1,45 +1,27 @@
-import { render, waitFor } from "@testing-library/react";
-import App from "./App";
-import * as React from "react";
-import fetch from "node-fetch";
+import { cleanup } from "@testing-library/react";
+import { render } from "../testing";
+import { App } from "./App";
 
-jest.mock("@deskpro/app-sdk", () => ({
-  ...jest.requireActual("@deskpro/app-sdk"),
-  useDeskproAppEvents: (
-    hooks: { [key: string]: (param: Record<string, unknown>) => void },
-    deps: [] = []
-  ) => {
-    const deskproAppEventsObj = {
-      data: {
-        ticket: {
-          id: 1,
-          subject: "Test Ticket",
-        },
-      },
-    };
-    React.useEffect(() => {
-      !!hooks.onChange && hooks.onChange(deskproAppEventsObj);
-      !!hooks.onShow && hooks.onShow(deskproAppEventsObj);
-      !!hooks.onReady && hooks.onReady(deskproAppEventsObj);
-      /* eslint-disable-next-line react-hooks/exhaustive-deps */
-    }, deps);
-  },
-  useInitialisedDeskproAppClient: (
-    callback: (param: Record<string, unknown>) => void
-  ) => {
-    callback({
-      registerElement: () => {},
-      deregisterElement: () => {},
-    });
-  },
-  proxyFetch: async () => fetch,
+jest.mock("./pages/Main/usePosts", () => ({
+  usePosts: () => ({
+    data: [{ id: 1, title: "first post" }, { id: 2, title: "second post" }],
+    isLoading: false,
+  }),
 }));
 
-test("renders App component", async () => {
-  const { getByText } = render(<App />);
+describe("useLinkedCards", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    cleanup();
+  });
 
-  await waitFor(() => {
-    const headingElement = getByText(/Ticket Data/i);
-    expect(headingElement).toBeInTheDocument();
+  test("render App", async () => {
+    const { findByText } = render((
+      <App />
+    ), { wrappers: { router: true, query: true, appSdk: true } });
+
+    expect(await findByText(/Big Ticket/i)).toBeInTheDocument();
+    expect(await findByText(/first post/i)).toBeInTheDocument();
+    expect(await findByText(/second post/i)).toBeInTheDocument();
   });
 });
