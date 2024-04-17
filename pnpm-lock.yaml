@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@deskpro/app-sdk':
-    specifier: 2.0.0
-    version: 2.0.0(@babel/core@7.22.9)(@deskpro/deskpro-ui@7.1.0)(@types/react-dom@18.0.10)(@types/react@18.0.27)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(typescript@4.4.4)
+    specifier: 2.1.14
+    version: 2.1.14(@babel/core@7.22.9)(@deskpro/deskpro-ui@7.1.0)(@types/react-dom@18.0.10)(@types/react@18.0.27)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(typescript@4.4.4)
   '@deskpro/deskpro-ui':
     specifier: ^7.1.0
     version: 7.1.0(@types/web@0.0.86)(react-dom@18.2.0)(react@18.2.0)(styled-components@5.3.11)
@@ -513,8 +513,8 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@deskpro/app-sdk@2.0.0(@babel/core@7.22.9)(@deskpro/deskpro-ui@7.1.0)(@types/react-dom@18.0.10)(@types/react@18.0.27)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(typescript@4.4.4):
-    resolution: {integrity: sha512-/8Ga7Wg2N/6muUot9vcftfuxc8sjqOBqGJ4a7Am2WwkMn8BGo3/L+vGlf7eQ5HnD3FVcyIwGLYgywqaGsxKdqA==}
+  /@deskpro/app-sdk@2.1.14(@babel/core@7.22.9)(@deskpro/deskpro-ui@7.1.0)(@types/react-dom@18.0.10)(@types/react@18.0.27)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(typescript@4.4.4):
+    resolution: {integrity: sha512-qplw2dYQMLEbMducAKfowt/tgdDWwYL4pJEZvuMnwWal3EoeFCkqXYbPt/PSdakESw7s0OTlB66ugeTkQvoYoQ==}
     engines: {node: ^16.0.0}
     peerDependencies:
       '@deskpro/deskpro-ui': ^7
@@ -609,6 +609,7 @@ packages:
 
   /@emotion/memoize@0.7.4:
     resolution: {integrity: sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==}
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -645,13 +646,13 @@ packages:
     resolution: {integrity: sha512-EBikYFp2JCdIfGEb5G9dyCkTGDmC57KSHhRQOC3aYxoPWVZvfWCDjZwkGYHN7Lis/fmuWl906bnNTJifDQ3sXw==}
     dependencies:
       '@formatjs/intl-localematcher': 0.2.25
-      tslib: 2.3.1
+      tslib: 2.6.1
     dev: false
 
   /@formatjs/fast-memoize@1.2.1:
     resolution: {integrity: sha512-Rg0e76nomkz3vF9IPlKeV+Qynok0r7YZjL6syLz4/urSg0IbjPZCB/iYUMNsYA643gh4mgrX3T7KEIFIxJBQeg==}
     dependencies:
-      tslib: 2.3.1
+      tslib: 2.6.1
     dev: false
 
   /@formatjs/icu-messageformat-parser@2.1.0:
@@ -659,14 +660,14 @@ packages:
     dependencies:
       '@formatjs/ecma402-abstract': 1.11.4
       '@formatjs/icu-skeleton-parser': 1.3.6
-      tslib: 2.3.1
+      tslib: 2.6.1
     dev: false
 
   /@formatjs/icu-skeleton-parser@1.3.6:
     resolution: {integrity: sha512-I96mOxvml/YLrwU2Txnd4klA7V8fRhb6JG/4hm3VMNmeJo1F03IpV2L3wWt7EweqNLES59SZ4d6hVOPCSf80Bg==}
     dependencies:
       '@formatjs/ecma402-abstract': 1.11.4
-      tslib: 2.3.1
+      tslib: 2.6.1
     dev: false
 
   /@formatjs/intl-displaynames@5.4.3:
@@ -674,7 +675,7 @@ packages:
     dependencies:
       '@formatjs/ecma402-abstract': 1.11.4
       '@formatjs/intl-localematcher': 0.2.25
-      tslib: 2.3.1
+      tslib: 2.6.1
     dev: false
 
   /@formatjs/intl-listformat@6.5.3:
@@ -682,13 +683,13 @@ packages:
     dependencies:
       '@formatjs/ecma402-abstract': 1.11.4
       '@formatjs/intl-localematcher': 0.2.25
-      tslib: 2.3.1
+      tslib: 2.6.1
     dev: false
 
   /@formatjs/intl-localematcher@0.2.25:
     resolution: {integrity: sha512-YmLcX70BxoSopLFdLr1Ds99NdlTI2oWoLbaUW2M406lxOIPzE1KQhRz2fPUkq34xVZQaihCoU29h0KK7An3bhA==}
     dependencies:
-      tslib: 2.3.1
+      tslib: 2.6.1
     dev: false
 
   /@formatjs/intl@2.2.1(typescript@4.4.4):
@@ -705,7 +706,7 @@ packages:
       '@formatjs/intl-displaynames': 5.4.3
       '@formatjs/intl-listformat': 6.5.3
       intl-messageformat: 9.13.0
-      tslib: 2.3.1
+      tslib: 2.6.1
       typescript: 4.4.4
     dev: false
 
@@ -3253,7 +3254,7 @@ packages:
       '@formatjs/ecma402-abstract': 1.11.4
       '@formatjs/fast-memoize': 1.2.1
       '@formatjs/icu-messageformat-parser': 2.1.0
-      tslib: 2.3.1
+      tslib: 2.6.1
     dev: false
 
   /is-arguments@1.1.1:
@@ -4660,7 +4661,7 @@ packages:
       hoist-non-react-statics: 3.3.2
       intl-messageformat: 9.13.0
       react: 18.2.0
-      tslib: 2.3.1
+      tslib: 2.6.1
       typescript: 4.4.4
     dev: false
 
@@ -5174,7 +5175,6 @@ packages:
 
   /tslib@2.6.1:
     resolution: {integrity: sha512-t0hLfiEKfMUoqhG+U1oid7Pva4bbDPHYfJNiB7BiIjRkj1pyC++4N3huJfqY6aRH6VTB0rvtzQwjM4K6qpfOig==}
-    dev: true
 
   /tsutils@3.21.0(typescript@4.4.4):
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
