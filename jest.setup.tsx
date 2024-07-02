@@ -1,13 +1,14 @@
 import "regenerator-runtime/runtime";
 import "@testing-library/jest-dom";
 import "intersection-observer";
+import ResizeObserver from "resize-observer-polyfill";
 import { useQuery } from "@tanstack/react-query";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { TextDecoder, TextEncoder } from "util";
 import * as React from "react";
 import { lightTheme } from "@deskpro/deskpro-ui";
-import { mockClient, mockTicketContext } from "./testing";
+import { mockClient, mockTicketContext } from "@deskpro/app-testing-utils";
 import type { IDeskproClient } from "@deskpro/app-sdk";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -20,6 +21,9 @@ global.TextDecoder = TextDecoder;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 global.React = React;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+global.ResizeObserver = ResizeObserver;
 
 jest.mock("@deskpro/app-sdk", () => ({
   ...jest.requireActual("@deskpro/app-sdk"),
