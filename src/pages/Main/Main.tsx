@@ -9,6 +9,7 @@ import {
   useDeskproAppEvents,
 } from "@deskpro/app-sdk";
 import { usePosts } from "./usePosts";
+import type { TicketData } from "@/types";
 
 /*
     Note: the following page component contains example code, please remove the contents of this component before you
@@ -16,7 +17,7 @@ import { usePosts } from "./usePosts";
     guides @see https://support.deskpro.com/en-US/guides/developers/anatomy-of-an-app
 */
 export const Main = () => {
-  const [ticketContext, setTicketContext] = useState<Context | null>(null);
+  const [ticketContext, setTicketContext] = useState<Context<TicketData> | null>(null);
   const posts = usePosts();
 
   // Add a "refresh" button @see https://support.deskpro.com/en-US/guides/developers/app-elements
@@ -41,12 +42,12 @@ export const Main = () => {
     <>
       <H1>Ticket Data</H1>
       <Stack gap={12} vertical>
-        <Property label="Ticket ID" text={ticketContext.data.ticket.id} />
-        <Property label="Ticket Subject" text={ticketContext.data.ticket.subject}/>
+        <Property label="Ticket ID" text={ticketContext.data?.ticket.id} />
+        <Property label="Ticket Subject" text={ticketContext.data?.ticket.subject}/>
       </Stack>
       <HorizontalDivider width={2} />
       <H1>Example Posts</H1>
-      {(posts?.data || []).map((post: { id: string, title: string }) => (
+      {(posts.data || []).map((post) => (
         <div key={post.id}>
           <Property label="Post Title" text={post.title} />
           <HorizontalDivider width={2} />
