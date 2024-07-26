@@ -1,5 +1,5 @@
 import { proxyFetch, useQueryWithClient } from "@deskpro/app-sdk";
-import { QueryKey } from "../../query";
+import { QueryKey } from "@/query";
 import type { IDeskproClient } from "@deskpro/app-sdk";
 
 export const getPosts = async (client: IDeskproClient) => {

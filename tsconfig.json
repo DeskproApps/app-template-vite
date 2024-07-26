@@ -18,6 +18,7 @@
     "types": ["vite/client", "jest", "@testing-library/jest-dom", "@typescript/lib-dom"],
     "baseUrl": ".",
     "paths": {
+      "@/testing": ["testing"],
       "@/*": ["src/*"]
     }
   },
