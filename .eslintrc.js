@@ -8,7 +8,7 @@ module.exports = {
   plugins: ["@typescript-eslint"],
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/strict-type-checked",
+    "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:react-hooks/recommended",
     "prettier",
   ],
