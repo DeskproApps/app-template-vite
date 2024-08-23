@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: "22"
 
       - name: Clone repo
         uses: actions/checkout@v4
@@ -82,7 +82,7 @@ jobs:
           zip -rq ../app.zip *
           mv ../app.zip .
       - name: Upload package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-package
           path: |
@@ -91,6 +91,6 @@ jobs:
           retention-days: 1
 
   deploy:
-    uses: DeskproApps/app-template-vite/.github/workflows/subworkflow-deploy.yml@master
+    uses: DeskproApps/app-template-vite/.github/workflows/subworkflow-deploy.yml@SC-124017-refactor-apps-to-remove-iframe-resizer-dependency-and-make-iframe-content-sizing-more-robust
     secrets: inherit
     needs: [deskpro_app_test_and_build]

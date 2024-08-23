@@ -7,7 +7,7 @@ import { DeskproAppProvider, LoadingSpinner } from "@deskpro/app-sdk";
 import { queryClient } from "@/query";
 import "@deskpro/deskpro-ui/dist/deskpro-ui.css";
 import "@deskpro/deskpro-ui/dist/deskpro-custom-icons.css";
-import "./index.css";
+import "./main.css";
 import { App } from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as Element);
