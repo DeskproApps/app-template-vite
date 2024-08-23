@@ -99,7 +99,7 @@ jobs:
           echo "id=${container_id}" >> $GITHUB_OUTPUT
 
       - name: Download package
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.artifact-name }}
           path: app-package
