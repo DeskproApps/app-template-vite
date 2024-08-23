@@ -91,6 +91,6 @@ jobs:
           retention-days: 1
 
   deploy:
-    uses: DeskproApps/app-template-vite/.github/workflows/subworkflow-deploy.yml@SC-124017-refactor-apps-to-remove-iframe-resizer-dependency-and-make-iframe-content-sizing-more-robust
+    uses: DeskproApps/app-template-vite/.github/workflows/subworkflow-deploy.yml@master
     secrets: inherit
     needs: [deskpro_app_test_and_build]
