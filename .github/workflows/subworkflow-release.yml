@@ -3,10 +3,15 @@ name: "Release to App Marketplace"
 on:
   workflow_call:
     inputs:
-      ref:
+      server_url:
         type: string
-        description: "The commit ref to build"
-        default: ${{ github.ref }}
+        description: "The URL of the GitHub server URL."
+        default: ${{ github.server_url }}
+        required: false
+      repository:
+        type: string
+        description: "The owner and repository name to release."
+        default: ${{ github.server_url }}
         required: false
 
     secrets:
@@ -26,7 +31,7 @@ jobs:
           curl -X POST \
             -H "Content-Type: application/json" \
             -H "x-api-key: ${{ secrets.APP_REGISTRY_KEY }}" \
-            -d '{"repositoryUrl": "'${{ github.server_url }}/${{ github.repository }}', "type": "github""}' \
+            -d '{"repositoryUrl": "'${{ inputs.server_url }}/${{ inputs.repository }}', "type": "github""}' \
             https://apps.deskpro-service.com/register
 
       - name: Trigger release
@@ -34,5 +39,5 @@ jobs:
           curl -X POST \
             -H "Content-Type: application/json" \
             -H "x-api-key: ${{ secrets.APP_REGISTRY_KEY }}" \
-            -d '{"repositoryUrl": "'${{ github.server_url }}/${{ github.repository }}'"}' \
+            -d '{"repositoryUrl": "'${{ inputs.server_url }}/${{ inputs.repository }}'"}' \
             https://apps.deskpro-service.com/release
