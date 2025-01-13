@@ -167,3 +167,9 @@ jobs:
           method: "POST"
           customHeaders: '{"Content-Type": "application/json", "x-api-key": "${{ secrets.APP_REGISTRY_KEY }}"}'
           data: '{"repositoryUrl": "${{ github.server_url }}/${{ github.repository }}"}'
+
+  release:
+    uses: DeskproApps/app-template-vite/.github/workflows/subworkflow-release.yml@master
+    secrets: inherit
+    needs: [deskpro_app_test_and_build]
+
