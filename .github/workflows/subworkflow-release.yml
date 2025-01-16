@@ -31,7 +31,7 @@ jobs:
           curl --fail -X POST \
             -H "Content-Type: application/json" \
             -H "x-api-key: ${{ secrets.APP_REGISTRY_KEY }}" \
-            -d '{"repositoryUrl": "'${{ inputs.server_url }}/${{ inputs.repository }}', "type": "github""}' \
+            -d '{"repositoryUrl": "'${{ inputs.server_url }}/${{ inputs.repository }}'", "type": "github"}' \
             https://apps.deskpro-service.com/register
 
       - name: Trigger release
