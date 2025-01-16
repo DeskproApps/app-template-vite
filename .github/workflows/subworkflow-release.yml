@@ -11,7 +11,7 @@ on:
       repository:
         type: string
         description: "The owner and repository name to release."
-        default: ${{ github.server_url }}
+        default: ${{ github.repository }}
         required: false
 
     secrets:
@@ -28,7 +28,7 @@ jobs:
       - name: Register release with apps registry
         id: register_with_apps_registry
         run: |
-          curl -X POST \
+          curl --fail -X POST \
             -H "Content-Type: application/json" \
             -H "x-api-key: ${{ secrets.APP_REGISTRY_KEY }}" \
             -d '{"repositoryUrl": "'${{ inputs.server_url }}/${{ inputs.repository }}', "type": "github""}' \
@@ -36,7 +36,7 @@ jobs:
 
       - name: Trigger release
         run: |
-          curl -X POST \
+          curl --fail -X POST \
             -H "Content-Type: application/json" \
             -H "x-api-key: ${{ secrets.APP_REGISTRY_KEY }}" \
             -d '{"repositoryUrl": "'${{ inputs.server_url }}/${{ inputs.repository }}'"}' \
