@@ -13,7 +13,6 @@ const esModules = [
   "react-merge-refs",
   "uuid",
   "@deskpro/deskpro-ui",
-  "node-fetch",
   "data-uri-to-buffer",
   "fetch-blob",
   "formdata-polyfill",
