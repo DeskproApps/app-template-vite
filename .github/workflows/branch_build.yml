@@ -11,7 +11,7 @@ jobs:
       contents: write
     name: Test / Build
     timeout-minutes: 30
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: git fetch --no-tags --depth=1 origin master

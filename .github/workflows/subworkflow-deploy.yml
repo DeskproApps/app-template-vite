@@ -42,7 +42,7 @@ jobs:
   deploy:
     name: Deploy / Deskpro Demo
     timeout-minutes: 10
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - run: |
