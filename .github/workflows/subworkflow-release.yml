@@ -24,9 +24,47 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Download package
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: app-package
+
+      - name: Create safe package
+        id: package
+        working-directory: app-package
+        run: |
+          content=`cat ./manifest.json | tr -d '\n'`
+          packageFilename=`echo "$content" | iconv -t ascii//TRANSLIT | sed -r s/[~\^]+//g | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z`
+          mv app.zip $packageFilename.zip
+          echo "manifest=$content" >> $GITHUB_OUTPUT
+          echo "packageFilename=$packageFilename.zip" >> $GITHUB_OUTPUT
+
+      - name: Create release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ fromJson(steps.package.outputs.manifest).version }}
+          draft: false
+          prerelease: false
+          files: |
+            ./app-package/${{ steps.package.outputs.packageFilename }}
+            ./app-package/manifest.json
+
+      - name: Check if can release to Deskpro Infrastructure
+        id: check_deskpro_release
+        run: |
+          if [ -z "${{ secrets.APP_REGISTRY_KEY }}" ]; then
+            echo "APP_REGISTRY_KEY is not set. Skipping deployment."
+            echo "can_deploy=false" >> $GITHUB_OUTPUT
+          else
+            echo "can_deploy=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Register release with apps registry
-        id: register_with_apps_registry
+        if: steps.check_deskpro_release.outputs.can_deploy == 'true'
         run: |
           curl --fail -X POST \
             -H "Content-Type: application/json" \
@@ -35,6 +73,7 @@ jobs:
             https://apps.deskpro-service.com/register
 
       - name: Trigger release
+        if: steps.check_deskpro_release.outputs.can_deploy == 'true'
         run: |
           curl --fail -X POST \
             -H "Content-Type: application/json" \
