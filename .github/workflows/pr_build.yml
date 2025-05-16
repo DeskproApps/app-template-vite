@@ -9,9 +9,12 @@ jobs:
   build:
     uses: ./.github/workflows/subworkflow-build.yml
     secrets: inherit
+    permissions:
+      contents: read
 
   deploy:
     uses: ./.github/workflows/subworkflow-deploy.yml
     secrets: inherit
     if: github.actor != 'dependabot[bot]'
     needs: [build]
+    permissions: {}
