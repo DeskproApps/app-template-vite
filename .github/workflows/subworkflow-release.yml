@@ -35,10 +35,9 @@ jobs:
         id: package
         working-directory: app-package
         run: |
-          content=`cat ./manifest.json | tr -d '\n'`
-          packageFilename=`echo "$content" | iconv -t ascii//TRANSLIT | sed -r s/[~\^]+//g | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z`
+          packageFilename=`jq -r .name manifest.json | iconv -t ascii//TRANSLIT | sed -r s/[~\^]+//g | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z`
           mv app.zip $packageFilename.zip
-          echo "manifest=$content" >> $GITHUB_OUTPUT
+          echo "version=`jq -r .version manifest.json`" >> $GITHUB_OUTPUT
           echo "packageFilename=$packageFilename.zip" >> $GITHUB_OUTPUT
 
       - name: Create release
@@ -47,7 +46,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ fromJson(steps.package.outputs.manifest).version }}
+          tag_name: ${{ steps.package.outputs.version }}
           draft: false
           prerelease: false
           generate_release_notes: true
