@@ -1,0 +1,84 @@
+name: "Build"
+
+on:
+  workflow_call:
+    inputs:
+      push-tag:
+        type: boolean
+        description: "Should the version tag be pushed to the repo"
+        default: false
+        required: false
+
+jobs:
+  build:
+    name: Lint / Test / Build / Tag
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Prep local dev
+        run: |
+          touch ~/.gitconfig
+          mkdir ~/.ssh
+          git config --global user.name "$(git log -1 --pretty=format:%an)"
+          git config --global user.email "$(git log -1 --pretty=format:%ae)"
+
+      - name: Export PR Labels
+        id: extract_labels
+        run: echo "labels=$(jq -r '[.[] | .name] | join(",")' <<< '${{ toJson(github.event.pull_request.labels) }}')" >> $GITHUB_OUTPUT
+
+      - name: Export Version Tag
+        id: version_tag
+        run: |
+          (tag=$(git tag --merged HEAD --sort=-version:refname -l "[0-9]*.[0-9]*.[0-9]*" -l "v[0-9]*.[0-9]*.[0-9]*" | head -n 1); 
+          echo version=$([ -z "$tag" ] && echo "0.0.0" || echo "${tag#v}") >> $GITHUB_OUTPUT;
+
+      - name: Lint, Test, Build, and Tag
+        uses: devcontainers/ci@v0.3
+        env:
+          LABELS: "${{ steps.extract_labels.outputs.labels }}"
+          VETSION: "${{ steps.version_tag.outputs.version }}"
+          PUSH_TAG: "${{ inputs.push-tag }}"
+        with:
+          env: LABELS
+          runCmd: |
+            set -e
+
+            # Lint
+            pnpm run lint
+            pnpm tsc --noemit
+
+            # Test
+            pnpm test:coverage
+
+            # Build
+            pnpm run build
+
+            # Tag
+            MILESTONE=$(echo "$LABELS" | grep -E 'major-version|minor-version' | head -1)
+            VERSION_NEW=$(pnpm run bumpManifestVer "$MILESTONE" "$VERSION")
+            pnpm prettier --write manifest.json
+            git tag -a $VERSION_NEW -m "Version $VERSION_NEW"
+            if [ "$PUSH_TAG" = "true" ]; then
+              git push origin $VERSION_NEW
+            fi
+
+      - name: Package app zip
+        working-directory: dist
+        run: |
+          cp ../manifest.json .
+          zip -rq ../app.zip *
+          mv ../app.zip .
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-package
+          path: |
+            dist/app.zip
+          retention-days: 7

@@ -3,12 +3,6 @@ name: "Deploy PR demo"
 on:
   workflow_call:
     inputs:
-      ref:
-        type: string
-        description: "The commit ref to build"
-        default: ${{ github.ref }}
-        required: false
-
       deskpro-docker-repository:
         type: string
         description: "Deskpro docker repository"

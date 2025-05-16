@@ -1,0 +1,20 @@
+name: PR Merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: .github/workflows/subworkflow-build.yml
+    secrets: inherit
+    if: github.event.pull_request.merged == true
+    with:
+      push-tag: true
+
+  release:
+    uses: .github/workflows/subworkflow-release.yml
+    secrets: inherit
+    needs: [build]
