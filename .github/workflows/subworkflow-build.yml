@@ -61,7 +61,7 @@ jobs:
 
             # Tag
             MILESTONE=$(echo "$LABELS" | grep -E 'major-version|minor-version' | head -1)
-            VERSION_NEW=$(pnpm run bumpManifestVer "$MILESTONE" "$VERSION")
+            VERSION_NEW=$(pnpm run bumpManifestVer "$MILESTONE" "$VERSION" | tail -n 1)
             pnpm prettier --write manifest.json
             git tag -a $VERSION_NEW -m "Version $VERSION_NEW"
             if [ "$PUSH_TAG" = "true" ]; then
