@@ -1,7 +1,16 @@
 const fs = require("fs");
 
-function bumpSemanticVersion(versionString, labels) {
-  let [major, minor, patch] = (versionString ?? '0.0.0').split(".");
+/**
+ * @param {string} versionStringRaw 
+ * @param {string} labels
+ */
+function bumpSemanticVersion(versionStringRaw, labels) {
+  const versionString = (versionStringRaw ?? '0.0.0').trim();
+  if (!versionString.match(/^\d+\.\d+\.\d+$/)) {
+    throw new Error("Invalid version string: " + versionStringRaw);
+  }
+
+  let [major, minor, patch] = versionString.trim().split(".");
 
   if (labels?.includes("major")) {
     major = parseInt(major) + 1;
