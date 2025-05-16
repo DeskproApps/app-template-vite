@@ -42,10 +42,12 @@ jobs:
         uses: devcontainers/ci@v0.3
         env:
           LABELS: "${{ steps.extract_labels.outputs.labels }}"
-          VETSION: "${{ steps.version_tag.outputs.version }}"
+          VERSION: "${{ steps.version_tag.outputs.version }}"
           PUSH_TAG: "${{ inputs.push-tag }}"
         with:
           env: LABELS
+          VERSION: VERSION
+          PUSH_TAG: PUSH_TAG
           runCmd: |
             set -e
 
