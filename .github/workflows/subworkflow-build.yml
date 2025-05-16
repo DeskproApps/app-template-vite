@@ -83,6 +83,6 @@ jobs:
         with:
           name: app-package
           path: |
-            dist/app.zip
+            app.zip
             manifest.json
           retention-days: 7
