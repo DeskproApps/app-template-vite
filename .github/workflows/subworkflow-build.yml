@@ -45,9 +45,10 @@ jobs:
           VERSION: "${{ steps.version_tag.outputs.version }}"
           PUSH_TAG: "${{ inputs.push-tag }}"
         with:
-          env: LABELS
-          VERSION: VERSION
-          PUSH_TAG: PUSH_TAG
+          env: |
+            LABELS
+            VERSION
+            PUSH_TAG
           runCmd: |
             set -e
 
