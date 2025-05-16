@@ -8,6 +8,16 @@ on:
         description: "Should the version tag be pushed to the repo"
         default: false
         required: false
+      run-lint:
+        type: boolean
+        description: "Should the lint checks be run"
+        default: true
+        required: false
+      run-tests:
+        type: boolean
+        description: "Should the tests be run"
+        default: true
+        required: false
 
 jobs:
   build:
@@ -44,20 +54,28 @@ jobs:
           LABELS: "${{ steps.extract_labels.outputs.labels }}"
           VERSION: "${{ steps.version_tag.outputs.version }}"
           PUSH_TAG: "${{ inputs.push-tag }}"
+          RUN_LINT:  "${{ inputs.run-lint }}"
+          RUN_TESTS:  "${{ inputs.run-tests }}"
         with:
           env: |
             LABELS
             VERSION
             PUSH_TAG
+            RUN_LINT
+            RUN_TESTS
           runCmd: |
             set -e
 
             # Lint
-            pnpm run lint
-            pnpm tsc --noemit
+            if [ "$RUN_LINT" = true ]; then
+              pnpm run lint
+              pnpm tsc --noemit
+            fi
 
             # Test
-            pnpm test:coverage
+            if [ "$RUN_TESTS" = true ]; then
+              pnpm test:coverage
+            fi
 
             # Build
             pnpm run build
