@@ -10,7 +10,7 @@ jobs:
     uses: ./.github/workflows/subworkflow-build.yml
     secrets: inherit
     permissions:
-      contents: read
+      contents: write
 
   deploy:
     uses: ./.github/workflows/subworkflow-deploy.yml
