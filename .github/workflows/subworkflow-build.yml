@@ -35,7 +35,7 @@ jobs:
       - name: Export Version Tag
         id: version_tag
         run: |
-          (tag=$(git tag --merged HEAD --sort=-version:refname -l "[0-9]*.[0-9]*.[0-9]*" -l "v[0-9]*.[0-9]*.[0-9]*" | head -n 1)); 
+          tag=$(git tag --merged HEAD --sort=-version:refname -l "[0-9]*.[0-9]*.[0-9]*" -l "v[0-9]*.[0-9]*.[0-9]*" | head -n 1); 
           echo version=$([ -z "$tag" ] && echo "0.0.0" || echo "${tag#v}") >> $GITHUB_OUTPUT;
 
       - name: Lint, Test, Build, and Tag
