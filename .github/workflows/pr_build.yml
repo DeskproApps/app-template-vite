@@ -17,4 +17,6 @@ jobs:
     secrets: inherit
     if: github.actor != 'dependabot[bot]'
     needs: [build]
-    permissions: {}
+    permissions:
+      contents: read
+      pull-requests: write

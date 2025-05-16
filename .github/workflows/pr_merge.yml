@@ -18,3 +18,5 @@ jobs:
     uses: ./.github/workflows/subworkflow-release.yml
     secrets: inherit
     needs: [build]
+    permissions:
+      contents: write
