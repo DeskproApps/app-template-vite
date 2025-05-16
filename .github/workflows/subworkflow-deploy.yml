@@ -37,7 +37,9 @@ jobs:
     name: Deploy / Deskpro Demo
     timeout-minutes: 10
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - run: |
           mkdir -p compose

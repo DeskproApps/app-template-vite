@@ -22,7 +22,8 @@ jobs:
     name: Release App
     timeout-minutes: 10
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
     steps:
       - name: Download package
         uses: actions/download-artifact@v4

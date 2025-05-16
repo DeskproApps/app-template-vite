@@ -13,6 +13,8 @@ jobs:
     if: github.event.pull_request.merged == true
     with:
       push-tag: true
+    permissions:
+      contents: write
 
   release:
     uses: ./.github/workflows/subworkflow-release.yml
