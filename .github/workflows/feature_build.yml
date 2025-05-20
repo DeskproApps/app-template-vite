@@ -2,7 +2,7 @@ name: Feature Build
 
 on:
   pull_request:
-  merge_group:
+  merge_group: # support for merge queues/groups
   workflow_dispatch:
 
 # Allow this job to be canceled when new commits are pushed
