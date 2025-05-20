@@ -1,24 +1,27 @@
-name: PR Merge
+name: Main Build
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-build
+  cancel-in-progress: false
+
 jobs:
-  build:
+  build_and_tag:
     uses: ./.github/workflows/subworkflow-build.yml
     secrets: inherit
-    if: github.event.pull_request.merged == true
     with:
       push-tag: true
     permissions:
       contents: write
+      pull-requests: read
 
   release:
     uses: ./.github/workflows/subworkflow-release.yml
     secrets: inherit
-    needs: [build]
+    needs: [build_and_tag]
     permissions:
       contents: write

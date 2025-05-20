@@ -26,6 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: read
     steps:
       - name: Clone repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -42,12 +43,32 @@ jobs:
 
       - name: Export PR Labels
         id: extract_labels
-        run: echo "labels=$(jq -r '[.[] | .name] | join(",")' <<< '${{ toJson(github.event.pull_request.labels) }}')" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "${{ github.event.pull_request.number }}" ]; then
+            # Regular PR case
+            echo "PR number found: ${{ github.event.pull_request.number }}"
+            labels=$(jq -r '[.[] | .name] | join(",")' <<< '${{ toJson(github.event.pull_request.labels) }}')
+          else
+            # Merge queue case - find PR by head ref
+            echo "No PR number found, checking for merge group"
+            PR_NUM=$(git log -1 --pretty=%B | grep -oP '#\K\d+')
+            echo "PR number found: $PR_NUM"
+            if [ -n "$PR_NUM" ]; then
+              labels=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+                "https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUM/labels" | \
+                jq -r '[.[] | .name] | join(",")')
+            fi
+          fi
+          echo "labels=${labels:-}"
+          echo "labels=${labels:-}" >> $GITHUB_OUTPUT
 
       - name: Export Version Tag
         id: version_tag
         run: |
           tag=$(git tag --merged HEAD --sort=-version:refname -l "[0-9]*.[0-9]*.[0-9]*" -l "v[0-9]*.[0-9]*.[0-9]*" | head -n 1); 
+          echo version=$([ -z "$tag" ] && echo "0.0.0" || echo "${tag#v}")
           echo version=$([ -z "$tag" ] && echo "0.0.0" || echo "${tag#v}") >> $GITHUB_OUTPUT;
 
       - name: Lint, Test, Build, and Tag

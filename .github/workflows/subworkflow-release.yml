@@ -57,7 +57,10 @@ jobs:
       - name: Check if can release to Deskpro Infrastructure
         id: check_deskpro_release
         run: |
-          if [ -z "${{ secrets.APP_REGISTRY_KEY }}" ]; then
+          if [ "${{ github.repository_visibility }}" != "public" ]; then
+            echo "Repository is not public. Skipping deployment."
+            echo "can_deploy=false" >> $GITHUB_OUTPUT
+          elif [ -z "${{ secrets.APP_REGISTRY_KEY }}" ]; then
             echo "APP_REGISTRY_KEY is not set. Skipping deployment."
             echo "can_deploy=false" >> $GITHUB_OUTPUT
           else
