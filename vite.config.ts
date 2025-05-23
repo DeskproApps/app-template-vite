@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import path from "path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
@@ -10,7 +11,13 @@ const PORT = process.env.VITE_DEV_SERVER_PORT
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "",
-  plugins: [react()],
+  plugins: [react(), sentryVitePlugin({
+    org: "deskpro",
+    project: "bridge-apps"
+  }), sentryVitePlugin({
+    org: "deskpro",
+    project: "deskpro-apps"
+  })],
   server: {
     host: true,
     port: PORT,
@@ -42,5 +49,7 @@ export default defineConfig({
         }),
       ],
     },
+
+    sourcemap: true
   },
 });
