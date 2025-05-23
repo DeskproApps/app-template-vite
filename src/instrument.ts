@@ -8,7 +8,6 @@ if (sentryDsn) {
   Sentry.init({
     dsn: sentryDsn,
     sendDefaultPii: false,
-    tunnel: sentryTunnel,
-    integrations: [],
+    tunnel: sentryTunnel
   });
 }
