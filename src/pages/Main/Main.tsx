@@ -41,7 +41,7 @@ export const Main = () => {
   return (
     <>
       <button onClick={() => {
-        throw new Error(new Date().toISOString() + "Sentry Test Error");
+        throw new Error("Sentry Test Error:" + new Date().toISOString());
       }}>Test Sentry Error</button>
       <H1>Ticket Data</H1>
       <Stack gap={12} vertical>

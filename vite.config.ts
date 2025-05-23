@@ -11,19 +11,22 @@ const PORT = process.env.VITE_DEV_SERVER_PORT
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "",
-  plugins: [react(), sentryVitePlugin({
-    org: "deskpro",
-    project: "bridge-apps"
-  }), sentryVitePlugin({
-    org: "deskpro",
-    project: "deskpro-apps"
-  })],
+  plugins: [
+    react(),
+    ...(
+      process.env.SENTRY_ORG && process.env.SENTRY_PROJECT
+        ? [sentryVitePlugin({
+          org: process.env.SENTRY_ORG,
+          project: process.env.SENTRY_PROJECT,
+        })] : []
+    ),
+  ],
   server: {
     host: true,
     port: PORT,
     allowedHosts: true
   },
-  resolve:{
+  resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
