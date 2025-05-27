@@ -14,7 +14,7 @@ export default defineConfig({
   plugins: [
     react(),
     ...(
-      process.env.SENTRY_ORG && process.env.SENTRY_PROJECT
+      process.env.SENTRY_DISABLED !== "true" && process.env.SENTRY_ORG && process.env.SENTRY_PROJECT
         ? [sentryVitePlugin({
           org: process.env.SENTRY_ORG,
           project: process.env.SENTRY_PROJECT,
