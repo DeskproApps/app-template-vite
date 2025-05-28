@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/react';
+import './instrument';
 import "./instrument";
 import { StrictMode, Suspense } from "react";
 import ReactDOM from "react-dom/client";
