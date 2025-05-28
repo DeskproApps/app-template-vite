@@ -40,6 +40,9 @@ export const Main = () => {
   // ticket @see https://support.deskpro.com/en-US/guides/developers/targets and third party API
   return (
     <>
+      <button onClick={() => {
+        throw new Error("Sentry Test Error:" + new Date().toISOString());
+      }}>Test Sentry Error</button>
       <H1>Ticket Data</H1>
       <Stack gap={12} vertical>
         <Property label="Ticket ID" text={ticketContext.data?.ticket.id} />
