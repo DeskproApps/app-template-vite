@@ -21,7 +21,12 @@
       {
         "url": "https://jsonplaceholder.typicode.com/.*",
         "methods": ["GET"],
-        "timeout": 20
+        "timeout": 20,
+        "settingsInjection": {
+          "example": {
+            "body": "example"
+          }
+        }
       }
     ]
   }
